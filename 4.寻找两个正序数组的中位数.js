@@ -11,36 +11,22 @@
  * @return {number}
  */
 var findMedianSortedArrays = function(nums1, nums2) {
-  let len1 = nums1.length;
-  let len2 = nums2.length;
-  let isOdd = (len1 + len2) % 2;
-  let mid = (len1 + len2) >> 1;
-  let i = 0;
-  let j = 0;
-  let orderedArr = [];
-  while (i + j <= mid) {
-    if (i < len1 && j < len2) {
-      if (nums1[i] < nums2[j]) {
-        orderedArr.push(nums1[i]);
-        i++;
-      } else {
-        orderedArr.push(nums2[j]);
-        j++;
-      }
-    }
-    if (i === len1) {
-      orderedArr.push(nums2[j]);
-      j++;
-    }
-    if (j === len2) {
-      orderedArr.push(nums1[i]);
-      i++;
+  let la = nums1.length, lb = nums2.length;
+  let len = la + lb;
+  let p1 = 0, p2 = 0;
+  let left = -1, right = -1;
+  for (let i = 0; i <= len / 2; i++) {
+    left = right;
+    if (p1 < la && (p2 >= lb || nums1[p1] < nums2[p2])) {
+      right = nums1[p1++];
+    } else {
+      right = nums2[p2++];
     }
   }
-  if(isOdd) {
-    return orderedArr[mid];
+  if((len & 1) === 0) {
+    return (left + right) / 2.0;
   } else {
-    return (orderedArr[mid - 1] + orderedArr[mid]) / 2;
+    return right;
   }
 };
 // @lc code=end
